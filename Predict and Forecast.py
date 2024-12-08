@@ -45,7 +45,7 @@ def linear_regression(x, y, k):
 # Visualization
 def visualize_data(x, y_original, y_interpolated, y_forecasted=None):
     plt.plot(x, y_original, 'o-', label='Original Data', color='blue')
-    plt.plot(x, y_interpolated, 'o-', label='Interpolated Data', color='green')
+    plt.plot(x, y_interpolated, 'o-', label='Interpolated Data', color='orange')
     
     if y_forecasted is not None:
         forecast_x = np.array([i for i in range(len(y_original), len(y_original) + len(y_forecasted))])
@@ -97,6 +97,11 @@ def main():
             print("Invalid dataset. Please try again.")
             continue
 
+        # Print the original dataset in terminal
+        print("\nDataset:")
+        print(f"x = {', '.join(map(str, x))}")
+        print(f"y = {', '.join(['None' if yi is None else str(yi) for yi in y])}")
+        
         if choice == 1:
             # Newton's Divided-Difference Interpolation
             y_interpolated = y.copy()
@@ -107,12 +112,22 @@ def main():
                         np.array([yi for yi in y if yi is not None]),
                         x[i]
                     )
+            # Print the result in terminal
+            print("\nResult:")
+            print(f"x = {', '.join(map(str, x))}")
+            print(f"y = {', '.join([str(yi) for yi in y_interpolated])}")
+            
             visualize_data(x, y, y_interpolated)
         
         elif choice == 2:
             # Simple Linear Regression
             k = int(input("Enter number of future points to forecast: "))
             y_interpolated, y_forecasted = linear_regression(x, y, k)
+            # Print the result in terminal
+            print("\nResult:")
+            print(f"x = {', '.join(map(str, x))}")
+            print(f"y = {', '.join([str(yi) for yi in y_interpolated])}")
+            
             visualize_data(x, y, y_interpolated, y_forecasted)
 
 if __name__ == "__main__":
